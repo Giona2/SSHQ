@@ -1,0 +1,8 @@
+[package]
+name = "sshq"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ssh-rs = "0.3.3"
+yaml = "0.3.0"
