@@ -1,4 +1,5 @@
 ip: "127.0.0.1"
 port: "77"
-password: null
-key_auth: "~/.ssh/remote"
+key_auth:
+  password: "1234"
+  file_path: "~/.ssh/remote"
