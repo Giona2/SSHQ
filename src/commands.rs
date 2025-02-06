@@ -27,9 +27,6 @@ impl Commands {
         let ip_addr      = stdin::input("IP Address         : ");
         let mut port_num     = stdin::input("Port Number  [20]  : ");
             if port_num == "" { port_num = String::from("20") }
-        let mut key_password = stdin::input("Key Password [None]: ");
-            if key_password.to_lowercase() == "none" { key_password = String::from("None") }
-        let key_pair_path: String = data::ssh_data_dir() + "/" + &profile_name;
 
         // create key pair
         process::Command::new("ssh-keygen")
