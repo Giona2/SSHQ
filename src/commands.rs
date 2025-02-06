@@ -28,7 +28,7 @@ impl Commands {
         let mut port_num = stdin::input("Port Number  [20] : ");
             if port_num == "" { port_num = String::from("20") };
 
-        // create key pair
+        // create key pair files
         process::Command::new("ssh-keygen")
             .args(["-b", "4096"])
             .args(["-f", &(data::data_dir() + "/keys/" + &profile_name)])
@@ -56,7 +56,15 @@ impl Commands {
         // get the profile data
         let profile_data_file = YamlFile::new(&(data::data_dir() + "/profiles/" + profile_name + ".yaml"));
 
-        println!("Data File {:?}", profile_data_file.content);
+        // connect via ssh
+        process::Command::new("ssh")
+            .args(["-p", profile_data_file.content["port"].as_str().unwrap()])
+            .args(["-i", &(data::data_dir() + "/keys/" + profile_name)])
+            .arg(&(target_username + "@" + profile_data_file.content["ip"].as_str().unwrap()))
+            //.stdout(process::Stdio::null())
+            //.stderr(process::Stdio::null())
+            .spawn()
+            .expect("Failed to connect");
     }
 
     pub fn remove(profile_name: &str) {
