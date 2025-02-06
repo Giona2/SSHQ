@@ -39,7 +39,7 @@ impl Commands {
             .expect("Failed to generate key");
 
         // create profile file
-        let mut profile_file = YamlFile::new(&(data::data_dir() + "/profiles/" + &profile_name));
+        let mut profile_file = YamlFile::new(&(data::data_dir() + "/profiles/" + &profile_name + ".yaml"));
 
         let mut profile_file_content: LinkedHashMap<Yaml, Yaml> = LinkedHashMap::new();
         profile_file_content.insert(Yaml::String("ip".to_string()),   Yaml::String(ip_addr));
