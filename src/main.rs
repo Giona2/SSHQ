@@ -23,6 +23,7 @@ fn main() {
         "new"     => Commands::new(&args[1]),
         "connect" => Commands::connect(&args[1]),
         "remove"  => Commands::remove(&args[1]),
+        "edit"    => Commands::edit(&args[1], &args[2], &args[3]),
         "list"    => Commands::list(),
 
         "help"    => Commands::help(),

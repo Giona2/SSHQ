@@ -4,7 +4,7 @@ use crate::data_files::yaml::YamlFile;
 use std::process;
 use std::fs;
 use linked_hash_map::LinkedHashMap;
-use yaml_rust::{YamlEmitter, YamlLoader, Yaml};
+use yaml_rust::Yaml;
 
 
 pub struct Commands;
@@ -18,6 +18,12 @@ impl Commands {
         println!();
         println!("sshq remove <profile name>");
         println!("  remove an existing profile");
+        println!();
+        println!("sshq edit <profile name> <trait to change> <value to change to>");
+        println!("                          |- ip  : change ip address");
+        println!("                          |- port: change port number");
+        println!();
+        println!("  changes a selected value of an existing profile");
         println!();
         println!("sshq list");
         println!("  list all saved ssh profiles");
@@ -80,7 +86,8 @@ impl Commands {
             .expect("Failed to remove profile file");
     }
     
-    pub fn edit(profile_name: &str) {
+    pub fn edit(profile_name: &str, trait_to_change: &str, value_to_change_to: &str) {
+
     }
 
     pub fn list() {
