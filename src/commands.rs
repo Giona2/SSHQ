@@ -24,9 +24,9 @@ impl Commands {
 
     pub fn new(profile_name: &str) {
         // getting the device/profile data
-        let ip_addr      = stdin::input("IP Address         : ");
-        let mut port_num     = stdin::input("Port Number  [20]  : ");
-            if port_num == "" { port_num = String::from("20") }
+        let ip_addr      = stdin::input("IP Address        : ");
+        let mut port_num = stdin::input("Port Number  [20] : ");
+            if port_num == "" { port_num = String::from("20") };
 
         // create key pair
         process::Command::new("ssh-keygen")
@@ -40,9 +40,11 @@ impl Commands {
 
         // create profile file
         let mut profile_file = YamlFile::new(&(data::data_dir() + "/profiles/" + &profile_name));
+
         let mut profile_file_content: LinkedHashMap<Yaml, Yaml> = LinkedHashMap::new();
         profile_file_content.insert(Yaml::String("ip".to_string()),   Yaml::String(ip_addr));
         profile_file_content.insert(Yaml::String("port".to_string()), Yaml::String(port_num));
+
         profile_file.content = Yaml::Hash(profile_file_content);
         profile_file.update();
     }
