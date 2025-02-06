@@ -101,6 +101,22 @@ impl Commands {
         selected_profile_file.update();
     }
 
-    pub fn list() {
-    }
+    pub fn list() { for profile in fs::read_dir(&(data::data_dir() + "/profiles")).unwrap() {
+        // get the file name of the current profile
+        let profile_file_name =  profile.unwrap().file_name()
+            .into_string().unwrap();
+        
+        // get the data retreaved from the profile file
+        let profile_data_file = YamlFile::new(&(data::data_dir() + "/profiles/" + &profile_file_name));
+        let profile_ip = profile_data_file.content["ip"].clone()
+            .into_string().unwrap();
+        let profile_port = profile_data_file.content["port"].clone()
+            .into_string().unwrap();
+        
+        // get the profile's name by removing the .yaml file extension
+        let profile_name = profile_file_name.replace(".yaml", "");
+
+        // print the result
+        println!("{profile_name} ({profile_ip}:{profile_port})");
+   }}
 }
