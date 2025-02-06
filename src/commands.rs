@@ -50,6 +50,13 @@ impl Commands {
     }
 
     pub fn connect(profile_name: &str) {
+        // get the username to connect to
+        let target_username = stdin::input("Username: ");
+
+        // get the profile data
+        let profile_data_file = YamlFile::new(&(data::data_dir() + "/profiles/" + profile_name + ".yaml"));
+
+        println!("Data File {:?}", profile_data_file.content);
     }
 
     pub fn remove(profile_name: &str) {
