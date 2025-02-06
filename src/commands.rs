@@ -2,6 +2,7 @@ use crate::{data, stdin};
 use crate::data_files::yaml::YamlFile;
 
 use std::process;
+use std::fs;
 use linked_hash_map::LinkedHashMap;
 use yaml_rust::{YamlEmitter, YamlLoader, Yaml};
 
@@ -66,6 +67,17 @@ impl Commands {
     }
 
     pub fn remove(profile_name: &str) {
+        // remove profile file
+        fs::remove_file(&(data::data_dir() + "/profiles/" + profile_name + ".yaml"))
+            .expect("Failed to remove profile file");
+
+        // remove private key
+        fs::remove_file(&(data::data_dir() + "/keys/" + profile_name))
+            .expect("Failed to remove profile file");
+
+        // remove public key
+        fs::remove_file(&(data::data_dir() + "/keys/" + profile_name + ".pub"))
+            .expect("Failed to remove profile file");
     }
     
     pub fn edit(profile_name: &str) {
