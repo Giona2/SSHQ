@@ -61,9 +61,7 @@ impl Commands {
             .args(["-p", profile_data_file.content["port"].as_str().unwrap()])
             .args(["-i", &(data::data_dir() + "/keys/" + profile_name)])
             .arg(&(target_username + "@" + profile_data_file.content["ip"].as_str().unwrap()))
-            //.stdout(process::Stdio::null())
-            //.stderr(process::Stdio::null())
-            .spawn()
+            .status()
             .expect("Failed to connect");
     }
 
