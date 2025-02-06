@@ -87,7 +87,18 @@ impl Commands {
     }
     
     pub fn edit(profile_name: &str, trait_to_change: &str, value_to_change_to: &str) {
+        // get profile file
+        let mut selected_profile_file = YamlFile::new(&(data::data_dir() + "/profiles/" + profile_name + ".yaml"));
 
+        // change the selected trait
+        if let Yaml::Hash(ref mut yaml_table) = selected_profile_file.content { match trait_to_change {
+            "ip"   => { yaml_table.insert(Yaml::from_str("ip"),   Yaml::from_str(value_to_change_to)); }
+            "port" => { yaml_table.insert(Yaml::from_str("port"), Yaml::from_str(value_to_change_to)); }
+            _      => println!("This trait does not exist")
+        }}
+
+        // update the file and apply the changes
+        selected_profile_file.update();
     }
 
     pub fn list() {
