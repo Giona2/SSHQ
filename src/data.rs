@@ -1,5 +1,13 @@
 use whoami;
 
+pub fn home_dir() -> String {
+    format!("/home/{}", whoami::username().unwrap())
+}
+
 pub fn data_dir() -> String {
-    format!("/home/{}/.local/share/sshq", whoami::username().unwrap())
+    format!("{}/.local/share/sshq", home_dir())
+}
+
+pub fn ssh_data_dir() -> String {
+    format!("{}/.ssh", home_dir())
 }

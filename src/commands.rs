@@ -1,7 +1,9 @@
-use crate::stdin;
+use crate::{data, stdin};
+use crate::data_files::yaml::YamlFile;
 
-use ssh_rs::ssh;
-use yaml_rust::YamlLoader;
+use std::process;
+use linked_hash_map::LinkedHashMap;
+use yaml_rust::{YamlEmitter, YamlLoader, Yaml};
 
 
 pub struct Commands;
@@ -21,9 +23,31 @@ impl Commands {
     }
 
     pub fn new(profile_name: &str) {
+        // getting the device/profile data
         let ip_addr      = stdin::input("IP Address         : ");
-        let port_num     = stdin::input("Port Number  [20]  : ");
-        let key_password = stdin::input("Key password [None]: ");
+        let mut port_num     = stdin::input("Port Number  [20]  : ");
+            if port_num == "" { port_num = String::from("20") }
+        let mut key_password = stdin::input("Key Password [None]: ");
+            if key_password.to_lowercase() == "none" { key_password = String::from("None") }
+        let key_pair_path: String = data::ssh_data_dir() + "/" + &profile_name;
+
+        // create key pair
+        process::Command::new("ssh-keygen")
+            .args(["-b", "4096"])
+            .args(["-f", &(data::data_dir() + "/keys/" + &profile_name)])
+            .args(["-N", "\"\""])
+            //.stdout(process::Stdio::null())
+            //.stderr(process::Stdio::null())
+            .spawn()
+            .expect("Failed to generate key");
+
+        // create profile file
+        let mut profile_file = YamlFile::new(&(data::data_dir() + "/profiles/" + &profile_name));
+        let mut profile_file_content: LinkedHashMap<Yaml, Yaml> = LinkedHashMap::new();
+        profile_file_content.insert(Yaml::String("ip".to_string()),   Yaml::String(ip_addr));
+        profile_file_content.insert(Yaml::String("port".to_string()), Yaml::String(port_num));
+        profile_file.content = Yaml::Hash(profile_file_content);
+        profile_file.update();
     }
 
     pub fn connect(profile_name: &str) {

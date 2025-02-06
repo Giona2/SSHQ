@@ -8,7 +8,6 @@ mod data_files;
 mod stdin;
 mod data;
 
-
 fn main() {
     // create data file
     if !fs::exists(data::data_dir()).unwrap() {
@@ -25,6 +24,8 @@ fn main() {
         "connect" => Commands::connect(&args[1]),
         "remove"  => Commands::remove(&args[1]),
         "list"    => Commands::list(),
+
+        "help"    => Commands::help(),
 
         _         => println!("Command not found"),
     }
